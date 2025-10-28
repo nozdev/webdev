@@ -3,6 +3,7 @@ title: "Real-Time Blazor Server Platform"
 layout: default
 description: "Building live C#-powered datafeeds and code execution using Blazor Server, Roslyn, and WebSockets."
 ---
+[My Experience with AG-Grid & SlickGrid →](/)
 
 ## ⚡ Real-Time Blazor Server Platform with Roslyn and Live Datafeeds
 
