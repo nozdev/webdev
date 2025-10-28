@@ -10,5 +10,6 @@ collections:
     output: true
 description: A collection of experiments, projects, and learnings across front-end engineering, real-time data visualization, and web performance optimization.
 show_downloads: false
-google_analytics: 
+google_analytics:
+highlighter: rouge
 theme: jekyll-theme-cayman
