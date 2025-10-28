@@ -66,5 +66,5 @@ await foreach (var tick in WebSocketFeed.SubscribeAsync("btcusdt"))
 {
     Console.WriteLine($"{tick.Symbol} = {tick.Price}");
 }
-{% highlight %}
+{% endhighlight %}
 
