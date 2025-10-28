@@ -2,13 +2,9 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+Text can be _italic_, or ~~strikethrough~~.
 
 [Link to another page](./another-page.html).
-
-This is a test.
-
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
 
 # My Experience with AG-Grid & SlickGrid
 
@@ -35,17 +31,48 @@ AG-Grid has been my preferred solution for building enterprise-level data tables
 
 ```js
 // Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+async function streamTrades() {
+    const client = new MarketDataServiceClient(
+        'https://nigemserverdemo.runasp.net',
+        null,
+        { format: 'text' }
+    );
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
+    const request = new TradeRequest();
+    request.setSymbolsList([]); // empty array like C# example
+
+    let attempt = 0;
+
+    async function startStream() {
+        const stream = client.streamTradeData(request, null);
+
+        stream.on('data', (response) => {
+            addTrade(response.toObject());
+        });
+
+        stream.on('error', async (err) => {
+            console.error('Stream error:', err);
+
+            attempt++;
+            const backoff = Math.min(1000 * 2 ** attempt, 30000); // exponential backoff max 30s
+            console.log(`Retrying stream in ${backoff}ms...`);
+
+            await new Promise(res => setTimeout(res, backoff));
+            startStream(); // restart
+        });
+
+        stream.on('end', () => {
+            console.log('Stream ended by server, restarting...');
+            attempt = 0; // reset backoff
+            startStream();
+        });
+    }
+
+    startStream();
+}
+
+// Call the streaming function
+streamTrades();
 ```
 
 ## SlickGrid
