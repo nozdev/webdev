@@ -30,49 +30,101 @@ AG-Grid has been my preferred solution for building enterprise-level data tables
 * Tuned performance for large datasets by adjusting change detection, row virtualization, and event throttling.
 
 ```js
-// Javascript code with syntax highlighting.
-async function streamTrades() {
-    const client = new MarketDataServiceClient(
-        'https://nigemserverdemo.runasp.net',
-        null,
-        { format: 'text' }
-    );
+(function () {
+  const lastPrices = {};
 
-    const request = new TradeRequest();
-    request.setSymbolsList([]); // empty array like C# example
+  function checkAgGrid() {
+    const tickerCells = document.querySelectorAll('b.custom-ticker');
+    tickerCells.forEach(tickerEl => {
+      const ticker = tickerEl.textContent.trim();
+      if (ticker !== 'BTCUSDT') return;
 
-    let attempt = 0;
+      const row = tickerEl.closest('[role="row"]');
+      if (!row) return;
 
-    async function startStream() {
-        const stream = client.streamTradeData(request, null);
+      const priceCell = row.querySelector('[col-id="price"]');
+      const deltaEl = priceCell?.querySelector('[data-ref="eDelta"]');
+      const valueEl = priceCell?.querySelector('[data-ref="eValue"]');
+      if (!priceCell || !valueEl) return;
 
-        stream.on('data', (response) => {
-            addTrade(response.toObject());
-        });
+      const price = parseFloat(valueEl.textContent.replace(/,/g, ''));
+      const deltaText = deltaEl?.textContent.trim() || '';
+      const deltaSign = deltaText.includes('↓') ? -1 : 1;
+      const deltaVal = parseFloat(deltaText.replace(/[↑↓%\s]/g, '')) * deltaSign;
 
-        stream.on('error', async (err) => {
-            console.error('Stream error:', err);
+      const lastPrice = lastPrices[ticker];
+      if (lastPrice !== undefined) {
+        const expected = ((price - lastPrice) / lastPrice) * 100;
+        if (Math.abs(deltaVal - expected) > 0.01) {
+          console.warn(`⚠️ [AG-GRID] MISMATCH — ${ticker}: Delta ${deltaVal.toFixed(4)}% vs Expected ${expected.toFixed(4)}% (Price: ${price}, Last: ${lastPrice})`);
+        }
+      }
 
-            attempt++;
-            const backoff = Math.min(1000 * 2 ** attempt, 30000); // exponential backoff max 30s
-            console.log(`Retrying stream in ${backoff}ms...`);
+      lastPrices[ticker] = price;
+    });
+  }
 
-            await new Promise(res => setTimeout(res, backoff));
-            startStream(); // restart
-        });
+  const grid = document.querySelector('.ag-root') || document.body;
+  if (grid) {
+    const observer = new MutationObserver(checkAgGrid);
+    observer.observe(grid, { childList: true, subtree: true });
+    console.log('✅ [AG-GRID] watcher active for BTCUSDT');
+  } else {
+    console.warn('⚠️ [AG-GRID] not found.');
+  }
+})();
 
-        stream.on('end', () => {
-            console.log('Stream ended by server, restarting...');
-            attempt = 0; // reset backoff
-            startStream();
-        });
-    }
+(function () {
+  const lastPriceMap = {};
 
-    startStream();
-}
+  function checkSlickGrid() {
+    const rows = document.querySelectorAll('.slick-row');
+    rows.forEach(row => {
+      const tickerCell = row.querySelector('.slick-cell:nth-child(1)');
+      if (!tickerCell) return;
 
-// Call the streaming function
-streamTrades();
+      const ticker = tickerCell.textContent.trim();
+      if (ticker !== 'BTCUSDT') return;
+
+      const priceCell = row.querySelector('.slick-cell:nth-child(3)');
+      if (!priceCell) return;
+
+      const spans = priceCell.querySelectorAll('span');
+      let price = 0, deltaPct = 0, deltaSign = 1;
+      spans.forEach(span => {
+        const text = span.textContent.trim();
+        if (/^[0-9,.]+$/.test(text)) {
+          price = parseFloat(text.replace(/,/g, ''));
+        }
+        if (text.includes('%')) {
+          deltaSign = text.includes('↓') ? -1 : 1;
+          deltaPct = parseFloat(text.replace(/[↑↓%\s]/g, '')) * deltaSign;
+        }
+      });
+
+      if (!price) return;
+
+      const lastPrice = lastPriceMap[ticker];
+      if (lastPrice !== undefined) {
+        const expectedPct = ((price - lastPrice) / lastPrice) * 100;
+        if (Math.abs(deltaPct - expectedPct) > 0.01) {
+          console.warn(`⚠️ [SLICKGRID] MISMATCH — ${ticker}: Delta ${deltaPct.toFixed(4)}% vs Expected ${expectedPct.toFixed(4)}% (Price: ${price}, Last: ${lastPrice})`);
+        }
+      }
+
+      lastPriceMap[ticker] = price;
+    });
+  }
+
+  const grid = document.querySelector('.slick-viewport') || document.body;
+  if (grid) {
+    const observer = new MutationObserver(checkSlickGrid);
+    observer.observe(grid, { childList: true, subtree: true });
+    console.log('✅ [SLICKGRID] watcher active for BTCUSDT');
+  } else {
+    console.warn('⚠️ [SLICKGRID] not found.');
+  }
+})();
 ```
 
 ## SlickGrid
@@ -85,7 +137,7 @@ I’ve used it to create highly responsive tables for internal tools and perform
 1.  Customized cell formatters to render delta percentages and real-time price indicators.
 2.  Used direct DOM observers to track visual changes for debugging and analytics.
 3.  Enhanced rendering speed for large static datasets
-4.  
+4.  Integrated with modern TypeScript modules despite its legacy jQuery roots.
 
 ### AG-Grid vs SlickGrid — My Insights
 
