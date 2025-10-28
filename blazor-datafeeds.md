@@ -58,13 +58,38 @@ This page explores how **Blazor Server** can be transformed into a real-time int
 ### 🧩 Example: Real-Time WebSocket Subscription
 
 {% highlight csharp %}
-using System.Net.WebSockets;
+using GrpcServiceExample;
+using NiGEMServerDemo;
 using System.Text.Json;
+using System.Threading.Channels;
+using System.ComponentModel.Composition;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
-// Subscribe to BTC/USDT live prices
-await foreach (var tick in WebSocketFeed.SubscribeAsync("btcusdt"))
+using Microsoft.Extensions.Logging;
+public class BinanceTradeStreamerService : BaseBinanceStreamerService<TradeData>
 {
-    Console.WriteLine($"{tick.Symbol} = {tick.Price}");
+    public BinanceTradeStreamerService(Channel<TradeData> channel, ILogger<BinanceTradeStreamerService> logger, BinanceSymbolStore symbolStore)
+        : base(channel, logger, symbolStore) { }
+
+    protected override TradeData ParseMessage(JsonElement data)
+    {
+        return new TradeData
+        {
+            Symbol = data.GetProperty("s").GetString(),
+            Price = data.GetProperty("p").GetString(),
+            Quantity = data.GetProperty("q").GetString(),
+            TradeTime = data.GetProperty("T").GetInt64()
+        };
+    }
+
+    protected override Uri BuildStreamUri(IEnumerable<string> symbols)
+    {
+        var streams = symbols.Select(s => s.ToLower() + "@trade");
+        var streamPath = string.Join("/", streams);
+        return new Uri($"wss://stream.binance.com:9443/stream?streams={streamPath}");
+    }
 }
 {% endhighlight %}
 
