@@ -1,5 +1,5 @@
 ---
-title: Cayman theme
+title: Exploring Modern Web Development
 timezone: UTC
 collections:
   posts:
@@ -8,7 +8,7 @@ collections:
   uploads:
     title: Uploads
     output: true
-description: Cayman is a clean, responsive theme for GitHub Pages.
-show_downloads: true
+description: A collection of experiments, projects, and learnings across front-end engineering, real-time data visualization, and web performance optimization.
+show_downloads: false
 google_analytics: 
 theme: jekyll-theme-cayman
