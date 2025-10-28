@@ -19,7 +19,8 @@ AG-Grid has been my preferred solution for building enterprise-level data tables
 
 > This is a blockquote following a header.
 >
-> When something is important enough, you do it even if the odds are not in your favor.
+> ![SlickGrid Trading Platform Screenshot](assets/images/slickgrid.png)
+
 
 ### Key Work:
 
