@@ -5,6 +5,8 @@ layout: default
 Text can be _italic_, or ~~strikethrough~~.
 
 [Link to another page](./blazor-datafeeds.html).
+[Explore Blazor Server & Live Datafeeds →](blazor-datafeeds)
+
 
 # My Experience with AG-Grid & SlickGrid
 
