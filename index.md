@@ -10,17 +10,28 @@ This is a test.
 
 There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
 
-# Header 1
+# My Experience with AG-Grid & SlickGrid
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+I’ve worked extensively with **AG-Grid** and **SlickGrid**, two of the most powerful JavaScript data-grid libraries used for building real-time, interactive data tables.
+My focus has been on integrating these grids into **high-performance dashboards**, **trading tools**, and **analytics systems** that demand precision, speed, and dynamic visual updates.
 
-## Header 2
+## AG-Grid
+
+AG-Grid has been my preferred solution for building enterprise-level data tables due to its comprehensive API, responsive design, and real-time update capabilities.
 
 > This is a blockquote following a header.
 >
 > When something is important enough, you do it even if the odds are not in your favor.
 
-### Header 3
+### Key Work:
+
+* Implemented live price and delta updates using MutationObservers and WebSocket feeds.
+
+* Built custom cell renderers to display ↑ / ↓ indicators and conditional color coding.
+
+* Integrated AG-Grid with Blazor and TypeScript, enabling reactive updates across front-end and back-end.
+
+* Tuned performance for large datasets by adjusting change detection, row virtualization, and event throttling.
 
 ```js
 // Javascript code with syntax highlighting.
@@ -37,44 +48,44 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
-#### Header 4
+## SlickGrid
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+SlickGrid is lightweight, fast, and ideal for scenarios requiring direct DOM control and minimal framework overhead.
+I’ve used it to create highly responsive tables for internal tools and performance-critical apps.
 
-##### Header 5
+### Key Work:
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+1.  Customized cell formatters to render delta percentages and real-time price indicators.
+2.  Used direct DOM observers to track visual changes for debugging and analytics.
+3.  Enhanced rendering speed for large static datasets
+4.  
 
-###### Header 6
+### AG-Grid vs SlickGrid — My Insights
 
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
+| Feature       | AG-Grid                           | SlickGrid                       |
+|:--------------|:----------------------------------|:--------------------------------|
+| Performance   | Excellent with large dynamic data | Exceptional for static data     |
+| Customization | API-driven and component-based    | DOM-level flexibility           |
+| Integration   | Works with React, Angular, Blazor | Primarily `vanilla` JS / jQuery |
+| Ecosystem     | Active, enterprise support        | Legacy, open-source community   |
+| Best For      | Real-time dashboards & analytics  | Lightweight, fast-loading UIs   |
 
 ### There's a horizontal rule below this.
 
 * * *
 
-### Here is an unordered list:
+### Lessons Learned
 
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
+Working deeply with both grids taught me to:
 
-### And an ordered list:
+*   Optimize DOM updates for real-time performance.
+*   Balance framework abstraction vs raw control.
+*   Build responsive UIs that can handle frequent data mutations gracefully.
+*   Design data visualizations that stay intuitive under heavy load.
 
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
+### Summary
+
+Both AG-Grid and SlickGrid have unique strengths — mastering them has helped me design systems that combine speed, clarity, and scalability in real-time data applications.
 
 ### And a nested list:
 
