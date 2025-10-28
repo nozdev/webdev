@@ -4,7 +4,7 @@ layout: default
 
 Text can be _italic_, or ~~strikethrough~~.
 
-[Link to another page](.blazor-datafeeds.html).
+[Link to another page](./blazor-datafeeds.html).
 
 # My Experience with AG-Grid & SlickGrid
 
