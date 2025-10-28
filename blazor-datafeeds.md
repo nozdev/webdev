@@ -1,8 +1,7 @@
 ---
-layout: default
 title: "Real-Time Blazor Server Platform"
+layout: default
 description: "Building live C#-powered datafeeds and code execution using Blazor Server, Roslyn, and WebSockets."
-permalink: /blazor-datafeeds/
 ---
 
 ## ⚡ Real-Time Blazor Server Platform with Roslyn and Live Datafeeds
