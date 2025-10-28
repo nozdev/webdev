@@ -57,7 +57,7 @@ This page explores how **Blazor Server** can be transformed into a real-time int
 
 ### 🧩 Example: Real-Time WebSocket Subscription
 
-```csharp
+{% highlight csharp %}
 using System.Net.WebSockets;
 using System.Text.Json;
 
@@ -66,3 +66,5 @@ await foreach (var tick in WebSocketFeed.SubscribeAsync("btcusdt"))
 {
     Console.WriteLine($"{tick.Symbol} = {tick.Price}");
 }
+{% highlight %}
+
