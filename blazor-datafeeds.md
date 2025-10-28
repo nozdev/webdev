@@ -7,7 +7,7 @@ description: "Building live C#-powered datafeeds and code execution using Blazor
 
 ## ⚡ Real-Time Blazor Server Platform with Roslyn and Live Datafeeds
 
-This page explores how **Blazor Server** can be transformed into a real-time interactive coding and analytics environment — where users can **write, compile, and execute C# code** that reacts instantly to **live WebSocket datafeeds**.
+This page explores how **Blazor Server** can be transformed into a real-time interactive coding and analytics environment — where users can **write, compile, and execute C# code** that reacts instantly to **live WebSocket datafeeds**. For example _AlPaca_,_Binance_,_Eodhd_,_Finnhub_,_Kraken_,~~iTick~~ or ~~AllTick~~.
 
 ---
 
